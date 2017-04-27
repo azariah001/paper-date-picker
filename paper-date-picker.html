@@ -171,12 +171,22 @@ styling:
         </neon-animatable>
       </neon-animated-pages>
     </div>
+      
+    <input hidden name="[[name]]" value="[[computedDate(date)]]">
   </template>
   <script>
 
     Polymer({
       is: 'paper-date-picker',
       properties: {
+        /**
+         * Value hack for form submission.
+         */
+        value: {
+          notify: true,
+          readOnly: true,
+          computed: 'computedDate(date)'
+        },
         /**
          * The selected date (YYYY-MM-DD)
          */
@@ -328,6 +338,10 @@ styling:
         this._resizing = false;
 
         this.updateStyles();
+      },
+      computedDate: function(computedDate) {
+        let currentDate = computedDate.toDateString().split(" ");
+        return `${currentDate[1]} ${currentDate[2]}, ${currentDate[3]}`;
       }
     });
   </script>
